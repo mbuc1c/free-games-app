@@ -1,7 +1,8 @@
-package com.example.freegamesapp
+package com.example.freegamesapp.presentation.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.freegamesapp.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
