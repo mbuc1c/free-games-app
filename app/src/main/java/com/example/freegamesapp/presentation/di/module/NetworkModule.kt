@@ -11,7 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-private const val BASE_URL = "https://www.freetogame.com/api/games"
+private const val BASE_URL = "https://www.freetogame.com/api/games/"
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule  {
