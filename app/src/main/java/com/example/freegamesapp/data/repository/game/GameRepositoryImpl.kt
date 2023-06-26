@@ -4,7 +4,7 @@ import com.example.freegamesapp.domain.entities.GameEntity
 import com.example.freegamesapp.domain.repository.GameRepository
 import com.example.freegamesapp.domain.util.Result
 
-class GameDataSourceImpl(
+class GameRepositoryImpl(
     val remote: GameDataSource.Remote
 ) : GameRepository {
 

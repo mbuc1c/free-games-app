@@ -7,5 +7,4 @@ data class GameEntity(
     val shortDescription: String,
     val genre: String,
     val platform: String
-) {
-}
+)

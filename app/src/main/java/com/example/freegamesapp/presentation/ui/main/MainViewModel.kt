@@ -1,5 +1,7 @@
 package com.example.freegamesapp.presentation.ui.main
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.freegamesapp.domain.usecase.GetSelectedGame
@@ -16,15 +18,17 @@ class MainViewModel @Inject constructor(
     val getSelectedGame: GetSelectedGame
 ) : ViewModel() {
 
-    val selectedGame = getSelectedGameTitle()
+    private val _selectedGame: MutableLiveData<String> = MutableLiveData()
+    val selectedGame: LiveData<String> get()= _selectedGame
 
-    private fun getSelectedGameTitle(): String? {
-        var title: String? = null
+    init {
+        getSelectedGameTitle()
+    }
+    private fun getSelectedGameTitle() {
         viewModelScope.launch {
-            val game = getSelectedGame.getGame(452)
+            val gameResult = getSelectedGame.getGame(452)
 
-            if (game is Result.Success) title = game.data.title else title = "Error in viewmodel"
+            if (gameResult is Result.Success) _selectedGame.postValue(gameResult.data.title) else _selectedGame.postValue("error")
         }
-        return title
     }
 }

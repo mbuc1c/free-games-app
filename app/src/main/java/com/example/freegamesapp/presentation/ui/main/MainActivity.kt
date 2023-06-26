@@ -2,6 +2,7 @@ package com.example.freegamesapp.presentation.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import com.example.freegamesapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,6 +21,9 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        binding.gameName.text = viewModel.selectedGame
+        viewModel.selectedGame.observe(this) {
+            binding.gameName.text = viewModel.selectedGame.value.toString()
+            Log.d("MyTag", viewModel.selectedGame.value.toString())
+        }
     }
 }
