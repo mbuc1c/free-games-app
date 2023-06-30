@@ -21,9 +21,9 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        viewModel.selectedGame.observe(this) {
-            binding.gameName.text = viewModel.selectedGame.value.toString()
-            Log.d("MyTag", viewModel.selectedGame.value.toString())
+        viewModel.allGames.observe(this) {
+//            binding.gameName.text = viewModel.allGames.value.toString()
+            Log.d("MyTag", viewModel.allGames.value.toString())
         }
     }
 }
