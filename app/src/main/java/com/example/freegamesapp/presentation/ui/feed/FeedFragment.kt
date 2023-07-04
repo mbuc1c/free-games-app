@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.freegamesapp.R
 import com.example.freegamesapp.databinding.FragmentFeedBinding
@@ -19,7 +20,7 @@ import javax.inject.Inject
 class FeedFragment : Fragment() {
 
     private val viewModel: FeedViewModel by viewModels()
-    @Inject lateinit var adapter: FeedListAdapter
+    private val adapter: FeedListAdapter by lazy { FeedListAdapter(this::onItemClicked) }
     private var _binding: FragmentFeedBinding? = null
     private val binding get() = _binding!!
 
@@ -41,6 +42,11 @@ class FeedFragment : Fragment() {
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(context)
         }
+    }
+
+    private fun onItemClicked(gameId: Int) {
+        val action = FeedFragmentDirections.actionFeedFragmentToGameDetailsFragment(gameId)
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {

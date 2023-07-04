@@ -8,6 +8,9 @@ import com.example.freegamesapp.domain.util.Result
 import com.example.freegamesapp.presentation.entities.GameListItem
 import com.example.freegamesapp.presentation.mapper.toListItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,8 +26,6 @@ class FeedViewModel @Inject constructor(
         getGames()
     }
 
-
-
     private fun getGames() {
         viewModelScope.launch {
             val result = getAllGames.getGames()
@@ -34,6 +35,4 @@ class FeedViewModel @Inject constructor(
             }
         }
     }
-
-
 }

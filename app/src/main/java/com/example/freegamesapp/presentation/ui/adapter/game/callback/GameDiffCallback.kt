@@ -5,7 +5,7 @@ import com.example.freegamesapp.presentation.entities.GameListItem
 
 class GameDiffCallback : DiffUtil.ItemCallback<GameListItem>() {
     override fun areItemsTheSame(oldItem: GameListItem, newItem: GameListItem): Boolean {
-        return oldItem == newItem
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: GameListItem, newItem: GameListItem): Boolean {

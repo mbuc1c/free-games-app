@@ -5,17 +5,15 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.freegamesapp.presentation.entities.GameListItem
 import com.example.freegamesapp.presentation.ui.adapter.game.callback.GameDiffCallback
 import com.example.freegamesapp.presentation.ui.adapter.game.viewholder.FeedViewHolder
-import javax.inject.Inject
 
-class FeedListAdapter @Inject constructor(
-
-) : ListAdapter<GameListItem, FeedViewHolder>(GameDiffCallback())  { // TODO: fix DI
+class FeedListAdapter(
+    private val action: (gameId: Int) -> Unit
+) : ListAdapter<GameListItem, FeedViewHolder>(GameDiffCallback())  {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedViewHolder {
-        return FeedViewHolder(parent)
+        return FeedViewHolder(parent, action)
     }
 
     override fun onBindViewHolder(holder: FeedViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
 }
