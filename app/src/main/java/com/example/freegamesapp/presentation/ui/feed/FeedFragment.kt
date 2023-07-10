@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.freegamesapp.R
 import com.example.freegamesapp.databinding.FragmentFeedBinding
 import com.example.freegamesapp.presentation.ui.adapter.game.FeedListAdapter
+import com.example.freegamesapp.presentation.ui.main.MainActivity
+import com.example.freegamesapp.presentation.util.FeedDestinationState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -42,9 +44,11 @@ class FeedFragment : Fragment() {
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(context)
         }
+        (requireActivity() as MainActivity).lastFeedDestination = FeedDestinationState.Feed
     }
 
     private fun onItemClicked(gameId: Int) {
+        (requireActivity() as MainActivity).lastFeedDestination = FeedDestinationState.Details(gameId)
         val action = FeedFragmentDirections.actionFeedFragmentToGameDetailsFragment(gameId)
         findNavController().navigate(action)
     }

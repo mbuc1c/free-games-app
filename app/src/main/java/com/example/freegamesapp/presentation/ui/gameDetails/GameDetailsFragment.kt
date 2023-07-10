@@ -12,6 +12,8 @@ import androidx.navigation.fragment.navArgs
 import com.example.freegamesapp.R
 import com.example.freegamesapp.databinding.FragmentFeedBinding
 import com.example.freegamesapp.databinding.FragmentGameDetailsBinding
+import com.example.freegamesapp.presentation.ui.main.MainActivity
+import com.example.freegamesapp.presentation.util.FeedDestinationState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,7 +21,7 @@ class GameDetailsFragment : Fragment() {
 
     private val viewModel: GameDetailsViewModel by viewModels()
 
-    val args: GameDetailsFragmentArgs by navArgs()
+    private val args: GameDetailsFragmentArgs by navArgs()
 
     private var _binding: FragmentGameDetailsBinding? = null
     private val binding get() = _binding!!
@@ -34,11 +36,13 @@ class GameDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.gameTitle.isVisible = false
-        viewModel.getGame(args.gameId)
+        val gameId = args.gameId
+        viewModel.getGame(gameId)
 
         viewModel.selectedGame.observe(viewLifecycleOwner) {
             binding.gameTitle.text = it?.title ?: "Couldn't get selected game!"
             binding.gameTitle.isVisible = true
         }
+        (requireActivity() as MainActivity).lastFeedDestination = FeedDestinationState.Details(args.gameId)
     }
 }
