@@ -1,5 +1,6 @@
 package com.example.freegamesapp.presentation.ui.feed
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,7 +21,7 @@ class FeedViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _allGames: MutableLiveData<List<GameListItem>?> = MutableLiveData()
-    val allGames: MutableLiveData<List<GameListItem>?> get()= _allGames
+    val allGames: LiveData<List<GameListItem>?> get()= _allGames
 
     init {
         getGames()

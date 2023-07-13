@@ -2,26 +2,15 @@ package com.example.freegamesapp.presentation.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.example.freegamesapp.R
 import com.example.freegamesapp.databinding.ActivityMainBinding
-import com.example.freegamesapp.presentation.ui.feed.FeedFragment
-import com.example.freegamesapp.presentation.ui.feed.FeedFragmentDirections
 import com.example.freegamesapp.presentation.util.FeedDestinationState
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -37,7 +26,8 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         navController = navHostFragment.findNavController()
 
         setupViews()
@@ -52,21 +42,37 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupBottomNavigationView() {
-        with (binding.navigationBottom) {
-            setOnItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.feed_item -> {
-                        navigateToFeedFragment()
-                        true
-                    }
-                    R.id.settings_item -> {
-                        navigateToSettings()
-                        true
-                    }
-                    else -> false
+        val navigationBottom = binding.navigationBottom
+
+        navigationBottom.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.feed_item -> {
+                    navigateToFeedFragment()
+                    true
                 }
+
+                R.id.settings_item -> {
+                    navigateToSettings()
+                    true
+                }
+
+                else -> false
             }
         }
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.feedFragment -> selectBottomNavigationItem(R.id.feed_item)
+                R.id.gameDetailsFragment -> selectBottomNavigationItem(R.id.feed_item)
+                R.id.settingsFragment -> selectBottomNavigationItem(R.id.settings_item)
+            }
+        }
+    }
+    private fun selectBottomNavigationItem(itemId: Int) {
+        val bottomNavigationView = binding.navigationBottom
+        val menu = bottomNavigationView.menu
+        val item = menu.findItem(itemId)
+        item?.isChecked = true
     }
 
     private fun navigateToFeedFragment() {
@@ -76,13 +82,14 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.feedFragment)
                 }
                 is FeedDestinationState.Details -> {
-//                    navController.navigate(R.id.gameDetailsFragment)
-//                    // Pass the gameId as an argument to the details fragment
-//                    navController.previousBackStackEntry?.savedStateHandle?.set("gameId", feedDestination.gameId)
-                    val bundle = Bundle().apply {
-                        putInt("gameId", feedDestination.gameId)
+                    if (navController.currentDestination?.id == R.id.gameDetailsFragment) {
+                        navController.navigate(R.id.feedFragment)
+                    } else {
+                        val bundle = Bundle().apply {
+                            putInt("gameId", feedDestination.gameId)
+                        }
+                        navController.navigate(R.id.gameDetailsFragment, bundle)
                     }
-                    navController.navigate(R.id.gameDetailsFragment, bundle)
                 }
             }
         } ?: run {
