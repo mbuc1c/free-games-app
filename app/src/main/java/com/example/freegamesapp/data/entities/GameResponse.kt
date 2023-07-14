@@ -9,7 +9,8 @@ data class GameResponse(
     @SerializedName("thumbnail") val thumbnail: String,
     @SerializedName("short_description") val shortDescription: String,
     @SerializedName("genre") val genre: String,
-    @SerializedName("platform") val platform: String
+    @SerializedName("platform") val platform: String,
+    @SerializedName("game_url") val gameUrl: String
 )
 
 fun GameResponse.toDomain() = GameEntity(
@@ -18,5 +19,6 @@ fun GameResponse.toDomain() = GameEntity(
     thumbnail = thumbnail,
     shortDescription = shortDescription,
     genre = genre,
-    platform = platform
+    platform = platform,
+    gameUrl = gameUrl
 )

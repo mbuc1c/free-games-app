@@ -9,5 +9,6 @@ fun GameEntity.toListItem() = GameListItem(
     thumbnail = thumbnail,
     shortDescription = shortDescription,
     genre = genre,
-    platform = platform
+    platform = platform,
+    gameUrl = gameUrl
 )

@@ -1,26 +1,32 @@
 package com.example.freegamesapp.presentation.ui.gameDetails
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.freegamesapp.domain.entities.GameEntity
 import com.example.freegamesapp.domain.usecase.GetSelectedGame
 import com.example.freegamesapp.domain.util.Result
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class GameDetailsViewModel @AssistedInject constructor(
     @Assisted private val gameId: Int,
     val getSelectedGame: GetSelectedGame
 ) : ViewModel() {
-    // TODO change to stateFlow to track uiState
-    private val _selectedGame: MutableLiveData<GameEntity?> = MutableLiveData()
-    val selectedGame: LiveData<GameEntity?> get() = _selectedGame
+    private val _uiState: MutableStateFlow<GameDetailsUiState> = MutableStateFlow(
+        GameDetailsUiState()
+    )
+    val uiState: StateFlow<GameDetailsUiState> get() = _uiState
 
+    data class GameDetailsUiState(
+        val title: String = "",
+        val shortDescription: String = "",
+        val thumbnail: String = "",
+        val gameUrl: String = ""
+    )
     @AssistedFactory
     interface Factory {
         fun create(gameId: Int): GameDetailsViewModel
@@ -44,8 +50,20 @@ class GameDetailsViewModel @AssistedInject constructor(
         viewModelScope.launch {
             val result = getSelectedGame.getGame(gameId)
             when (result) {
-                is Result.Success -> _selectedGame.postValue(result.data)
-                else -> _selectedGame.postValue(null)
+                is Result.Success -> {
+                    with(result.data) {
+                        _uiState.tryEmit(
+                            GameDetailsUiState(
+                                title = title,
+                                shortDescription = shortDescription,
+                                thumbnail = thumbnail,
+                                gameUrl = gameUrl
+                            )
+                        )
+                    }
+                }
+
+                else -> return@launch
             }
         }
     }

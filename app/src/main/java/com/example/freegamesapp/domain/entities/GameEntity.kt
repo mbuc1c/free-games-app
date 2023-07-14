@@ -6,5 +6,6 @@ data class GameEntity(
     val thumbnail: String,
     val shortDescription: String,
     val genre: String,
-    val platform: String
+    val platform: String,
+    val gameUrl: String
 )
