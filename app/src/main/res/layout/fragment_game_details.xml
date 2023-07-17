@@ -8,48 +8,59 @@
         android:id="@+id/thumbnail"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="6dp"
         android:importantForAccessibility="no"
-        android:scaleType="center"
-        app:layout_constraintBottom_toTopOf="@+id/game_title"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="h,16:9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@tools:sample/backgrounds/scenic" />
 
-    <TextView
-        android:id="@+id/game_title"
+    <ImageView
+        android:id="@+id/gradient"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.336" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/thumbnail"
+        app:layout_constraintEnd_toEndOf="@+id/thumbnail"
+        app:layout_constraintStart_toStartOf="@+id/thumbnail"
+        app:layout_constraintTop_toTopOf="@+id/thumbnail"
+        app:srcCompat="@drawable/gradient"
+        android:importantForAccessibility="no" />
 
     <TextView
         android:id="@+id/short_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/game_title"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/thumbnail"
+        tools:text="@string/description_hint" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/game_store_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:contentDescription="@string/visit_official_game_page"
         android:src="@drawable/store_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/game_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/thumbnail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/title_hint" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
