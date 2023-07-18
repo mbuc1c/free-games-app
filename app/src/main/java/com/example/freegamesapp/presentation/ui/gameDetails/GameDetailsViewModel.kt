@@ -17,7 +17,7 @@ class GameDetailsViewModel @AssistedInject constructor(
     val getSelectedGame: GetSelectedGame
 ) : ViewModel() {
     private val _uiState: MutableStateFlow<GameDetailsUiState> = MutableStateFlow(
-        GameDetailsUiState()
+        GameDetailsUiState(loading = true)
     )
     val uiState: StateFlow<GameDetailsUiState> get() = _uiState
 
@@ -25,7 +25,10 @@ class GameDetailsViewModel @AssistedInject constructor(
         val title: String = "",
         val shortDescription: String = "",
         val thumbnail: String = "",
-        val gameUrl: String = ""
+        val gameUrl: String = "",
+        val loading: Boolean = true,
+        val gradientVisibility: Boolean = false,
+        val fabVisibility: Boolean = false
     )
     @AssistedFactory
     interface Factory {
@@ -57,7 +60,10 @@ class GameDetailsViewModel @AssistedInject constructor(
                                 title = title,
                                 shortDescription = shortDescription,
                                 thumbnail = thumbnail,
-                                gameUrl = gameUrl
+                                gameUrl = gameUrl,
+                                loading = false,
+                                gradientVisibility = true,
+                                fabVisibility = true
                             )
                         )
                     }

@@ -18,7 +18,6 @@ import com.example.freegamesapp.presentation.util.FeedDestinationState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 @AndroidEntryPoint
 class GameDetailsFragment : Fragment() {
     private val args: GameDetailsFragmentArgs by navArgs()
@@ -43,11 +42,8 @@ class GameDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.gameTitle.isVisible = false
-        binding.thumbnail.isVisible = false
         observeViewModel()
-        binding.gameTitle.isVisible = true
-        binding.thumbnail.isVisible = true
+
         (requireActivity() as MainActivity).lastFeedDestination = FeedDestinationState.Details(args.gameId)
     }
 
@@ -62,7 +58,10 @@ class GameDetailsFragment : Fragment() {
     private fun handleGameDetailsUiState(gameState: GameDetailsViewModel.GameDetailsUiState) = with(binding) {
         gameTitle.text = gameState.title
         shortDescription.text = gameState.shortDescription
+        progressBar.isVisible = gameState.loading
+        gameStoreFab.isVisible = gameState.fabVisibility
         loadImage(gameState.thumbnail)
+        gradient.isVisible = gameState.gradientVisibility
         gameStoreFab.setOnClickListener {
             goToUrl(gameState.gameUrl)
         }
@@ -74,9 +73,11 @@ class GameDetailsFragment : Fragment() {
         startActivity(intent)
     }
 
-    private fun loadImage(thumbnail: String) =
-        Glide
-            .with(binding.root)
-            .load(thumbnail)
-            .into(binding.thumbnail)
+    private fun loadImage(imageUrl: String) = with(binding) {
+            Glide
+                .with(root)
+                .load(imageUrl)
+                .into(thumbnail)
+        }
 }
+
