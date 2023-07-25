@@ -10,4 +10,10 @@ interface GameDataSource {
         suspend fun getGames(): Result<List<GameEntity>>
         suspend fun getGameById(id: Int): Result<GameEntity>
     }
+
+    interface Local {
+        suspend fun getGames(): Result<List<GameEntity>>
+        suspend fun getGameById(gameId: Int): Result<GameEntity>
+        suspend fun insertGames(games: List<GameEntity>)
+    }
 }
